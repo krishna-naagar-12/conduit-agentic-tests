@@ -2,18 +2,37 @@
 
 ## Summary
 
-I used Claude (via Claude Code) as an implementation partner for this assignment,
-working against a live local instance of the app. I directed the work: I set the
-constraints up front, required the approach to be agreed before any code was written,
-corrected it when it was wrong, and rejected output that I could not defend.
+**This framework was built with Claude (via Claude Code) doing the implementation,
+and me directing, correcting and improving it throughout.** It ran against a live
+local instance of the app the entire time.
 
-I am documenting this plainly because the assignment asks for it, and because the
-skill being demonstrated is *directing* an AI to produce a defensible engineering
-artefact — which is harder than either writing it alone or accepting whatever the
-model emits first.
+Stating that plainly, because the assignment asks for honesty and because the
+alternative would not survive one follow-up question. What I want to be equally
+clear about is what "directing" actually meant here, since that is where the
+engineering judgement lives:
+
+- **I refused to let it write code first.** The opening prompt explicitly blocked
+  implementation until the app had been analysed and an approach proposed and
+  approved. That reconnaissance phase is where all three application defects were
+  found — before a single test existed.
+- **I set the constraint that shaped everything else:** *"do not pretend that I
+  implemented something I cannot explain."* Anything I could not defend was removed
+  or rewritten until I could.
+- **I corrected it when it was wrong.** Five times, documented below with the
+  evidence — including one case where a well-reasoned inference from the source code
+  was flatly wrong about runtime behaviour, and would have shipped as a confident,
+  passing-looking test.
+- **I improved the prompts as the work progressed** — tightening scope when it drifted
+  toward the app under test, forcing step-by-step reporting so the output stayed
+  reviewable, and blocking an irreversible action (a `git push` to the wrong account).
+- **I rejected its output**, including the first draft of *this document*, which
+  overstated my hands-on role.
+
+The skill on display is not typing speed. It is directing an AI toward a defensible
+engineering artefact and knowing when its output is wrong — which is harder than
+either writing it alone or accepting whatever the model emits first.
 
 **The bar I held throughout: I can explain and defend every file in this repo.**
-Anything I could not explain was removed or rewritten until I could.
 
 ---
 
