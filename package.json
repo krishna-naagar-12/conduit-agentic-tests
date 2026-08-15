@@ -1,0 +1,36 @@
+{
+  "name": "conduit-agentic-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Agentic-first Playwright + TypeScript test framework for the Conduit (RealWorld) app",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:ui": "playwright test --project=ui",
+    "test:headed": "playwright test --project=ui --headed",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "manifest:generate": "ts-node --transpileOnly tools/generate-manifest.ts",
+    "manifest:check": "ts-node --transpileOnly tools/generate-manifest.ts --check",
+    "preflight": "ts-node --transpileOnly tools/preflight.ts",
+    "agent:verify": "ts-node --transpileOnly tools/agent-verify.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.46.4",
+    "@typescript-eslint/parser": "^8.46.4",
+    "dotenv": "16.6.1",
+    "eslint": "^8.57.1",
+    "eslint-plugin-agent": "file:./tools/eslint-rules",
+    "ts-node": "^10.9.2",
+    "typescript": "5.9.3",
+    "zod": "3.25.76"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "eslint-plugin-agent",
+  "version": "1.0.0",
+  "description": "Local ESLint guardrails that make AI-agent test mistakes fail at lint time",
+  "main": "index.js",
+  "private": true
+}

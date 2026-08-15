@@ -1,0 +1,13 @@
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+.auth/
+*.log
+.DS_Store
+
+# Local environment overrides — never commit real credentials
+.env
+.env.local
+.env.*.local

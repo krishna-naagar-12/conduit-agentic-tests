@@ -1,0 +1,305 @@
+{
+  "generatedBy": "npm run manifest:generate (do not edit by hand)",
+  "description": "Authoritative index of the helpers available to tests in this repository. Generated from the TypeScript AST. If a method is not listed here, it does not exist.",
+  "fixtures": [
+    {
+      "name": "api",
+      "type": "ConduitApiClient",
+      "doc": "Typed API client. Use api.raw.* for negative tests that assert status codes."
+    },
+    {
+      "name": "users",
+      "type": "ActorFactory",
+      "doc": "Creates isolated, authenticated users."
+    },
+    {
+      "name": "articles",
+      "type": "ArticleFactory",
+      "doc": "Creates articles owned by a given actor."
+    },
+    {
+      "name": "actor",
+      "type": "Actor",
+      "doc": "A pre-registered authenticated user for tests that just need \"someone\"."
+    },
+    {
+      "name": "pages",
+      "type": "{ home, login, register, editor, article(slug) }",
+      "doc": "Page objects bound to the active page."
+    },
+    {
+      "name": "loginAs",
+      "type": "(actor: Actor) => Promise<void>",
+      "doc": "Seeds the JWT into localStorage to skip the login form."
+    }
+  ],
+  "classes": [
+    {
+      "name": "ActorFactory",
+      "file": "src/fixtures/actors.ts",
+      "doc": "Creates users on demand.",
+      "methods": [
+        {
+          "name": "createUser",
+          "signature": "createUser(overrides: Partial<NewUserPayload> = {}): Promise<Actor>",
+          "doc": "Registers a brand-new user and returns it with a valid token."
+        }
+      ]
+    },
+    {
+      "name": "ArticleFactory",
+      "file": "src/fixtures/actors.ts",
+      "doc": "Creates articles owned by a given actor.",
+      "methods": [
+        {
+          "name": "createArticle",
+          "signature": "createArticle(owner: Actor, overrides: Partial<NewArticlePayload> = {}): Promise<Article>"
+        },
+        {
+          "name": "createTaggedArticle",
+          "signature": "createTaggedArticle(owner: Actor, overrides: Partial<NewArticlePayload> = {}): Promise<{ article: Article; tag: string }>",
+          "doc": "Creates an article and returns it alongside the unique tag it can be queried by."
+        }
+      ]
+    },
+    {
+      "name": "ArticlePage",
+      "file": "src/pages/article.page.ts",
+      "doc": "Single article view at /article/:slug.",
+      "methods": [
+        {
+          "name": "goto",
+          "signature": "goto(): Promise<void>"
+        },
+        {
+          "name": "comment",
+          "signature": "comment(body: string)"
+        },
+        {
+          "name": "postComment",
+          "signature": "postComment(body: string): Promise<void>"
+        }
+      ]
+    },
+    {
+      "name": "BasePage",
+      "file": "src/pages/base.page.ts",
+      "doc": "Shared behaviour for every page object.",
+      "methods": [
+        {
+          "name": "goto",
+          "signature": "goto(): Promise<void>"
+        },
+        {
+          "name": "navLink",
+          "signature": "navLink(name: string)",
+          "doc": "A header link, matched on visible text."
+        }
+      ]
+    },
+    {
+      "name": "ConduitApiClient",
+      "file": "src/api/conduit-client.ts",
+      "methods": [
+        {
+          "name": "register",
+          "signature": "register(user: NewUserPayload): Promise<AuthUser>"
+        },
+        {
+          "name": "login",
+          "signature": "login(email: string, password: string): Promise<AuthUser>"
+        },
+        {
+          "name": "currentUser",
+          "signature": "currentUser(token: string): Promise<AuthUser>"
+        },
+        {
+          "name": "createArticle",
+          "signature": "createArticle(article: NewArticlePayload, token: string): Promise<Article>"
+        },
+        {
+          "name": "getArticle",
+          "signature": "getArticle(slug: string, token?: string): Promise<Article>"
+        },
+        {
+          "name": "updateArticle",
+          "signature": "updateArticle(slug: string, article: Partial<NewArticlePayload>, token: string): Promise<Article>"
+        },
+        {
+          "name": "deleteArticle",
+          "signature": "deleteArticle(slug: string, token: string): Promise<void>"
+        },
+        {
+          "name": "listArticles",
+          "signature": "listArticles(query: Partial<{\n      tag: string\n      author: string\n      favorited: string\n      limit: number\n      offset: number\n    }> = {}, token?: string): Promise<{ articles: Article[]; articlesCount: number }>"
+        },
+        {
+          "name": "favoriteArticle",
+          "signature": "favoriteArticle(slug: string, token: string): Promise<Article>"
+        },
+        {
+          "name": "unfavoriteArticle",
+          "signature": "unfavoriteArticle(slug: string, token: string): Promise<Article>"
+        },
+        {
+          "name": "addComment",
+          "signature": "addComment(slug: string, comment: NewCommentPayload, token: string): Promise<Comment>"
+        },
+        {
+          "name": "listComments",
+          "signature": "listComments(slug: string, token?: string): Promise<Comment[]>"
+        },
+        {
+          "name": "deleteComment",
+          "signature": "deleteComment(slug: string, commentId: number, token: string): Promise<void>"
+        },
+        {
+          "name": "followUser",
+          "signature": "followUser(username: string, token: string): Promise<Profile>"
+        },
+        {
+          "name": "feed",
+          "signature": "feed(token: string, query: Partial<{ limit: number; offset: number }> = {}): Promise<{\n    articles: Article[]\n    articlesCount: number\n  }>"
+        }
+      ]
+    },
+    {
+      "name": "ConduitApiError",
+      "file": "src/api/conduit-client.ts",
+      "doc": "Typed client for the Conduit REST API.",
+      "methods": []
+    },
+    {
+      "name": "EditorPage",
+      "file": "src/pages/editor.page.ts",
+      "doc": "Article composer at /editor.",
+      "methods": [
+        {
+          "name": "publishArticle",
+          "signature": "publishArticle(input: {\n    title: string\n    description: string\n    body: string\n    tags?: string[]\n  }): Promise<void>",
+          "doc": "Fills the composer and publishes."
+        }
+      ]
+    },
+    {
+      "name": "HomePage",
+      "file": "src/pages/home.page.ts",
+      "doc": "Home page at /, showing the Global Feed and (when signed in) Your Feed.",
+      "methods": [
+        {
+          "name": "previewByTitle",
+          "signature": "previewByTitle(title: string)",
+          "doc": "A single preview card located by its title text."
+        },
+        {
+          "name": "previewLink",
+          "signature": "previewLink(title: string)",
+          "doc": "Link into an article, located by title."
+        },
+        {
+          "name": "favoriteButtonFor",
+          "signature": "favoriteButtonFor(title: string)",
+          "doc": "Favourite toggle on a preview card. The button's accessible name is the favourites count, so it is located structurally within the card instead."
+        },
+        {
+          "name": "sidebarTag",
+          "signature": "sidebarTag(tag: string)",
+          "doc": "Tag link in the right-hand \"Popular Tags\" sidebar."
+        },
+        {
+          "name": "openGlobalFeed",
+          "signature": "openGlobalFeed(): Promise<void>"
+        }
+      ]
+    },
+    {
+      "name": "LoginPage",
+      "file": "src/pages/login.page.ts",
+      "doc": "Sign-in form at /login.",
+      "methods": [
+        {
+          "name": "login",
+          "signature": "login(email: string, password: string): Promise<void>"
+        }
+      ]
+    },
+    {
+      "name": "RegisterPage",
+      "file": "src/pages/register.page.ts",
+      "doc": "Sign-up form at /register.",
+      "methods": [
+        {
+          "name": "register",
+          "signature": "register(username: string, email: string, password: string): Promise<void>"
+        }
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "name": "buildArticlePayload",
+      "file": "src/factories/builders.ts",
+      "signature": "buildArticlePayload(overrides: Partial<NewArticlePayload> = {}): NewArticlePayload"
+    },
+    {
+      "name": "buildCommentPayload",
+      "file": "src/factories/builders.ts",
+      "signature": "buildCommentPayload(overrides: Partial<NewCommentPayload> = {}): NewCommentPayload"
+    },
+    {
+      "name": "buildUserPayload",
+      "file": "src/factories/builders.ts",
+      "signature": "buildUserPayload(overrides: Partial<NewUserPayload> = {}): NewUserPayload"
+    },
+    {
+      "name": "globalSetup",
+      "file": "src/support/global-setup.ts",
+      "signature": "globalSetup(): Promise<void>"
+    },
+    {
+      "name": "parseErrors",
+      "file": "src/api/conduit-client.ts",
+      "signature": "parseErrors(response: APIResponse): Promise<Record<string, string[]>>",
+      "doc": "Parses a validation-error body from a failed request."
+    },
+    {
+      "name": "uniqueEmail",
+      "file": "src/factories/identifiers.ts",
+      "signature": "uniqueEmail(prefix = 'qa'): string",
+      "doc": "Email is lowercased by the server's setter, so it is generated lowercase to keep request and response values directly comparable."
+    },
+    {
+      "name": "uniqueTag",
+      "file": "src/factories/identifiers.ts",
+      "signature": "uniqueTag(prefix = 'tag'): string",
+      "doc": "Tag used as a test's private query key."
+    },
+    {
+      "name": "uniqueToken",
+      "file": "src/factories/identifiers.ts",
+      "signature": "uniqueToken(): string",
+      "doc": "A unique, lowercase, alphanumeric token safe to embed in usernames, tags and titles."
+    },
+    {
+      "name": "uniqueUsername",
+      "file": "src/factories/identifiers.ts",
+      "signature": "uniqueUsername(prefix = 'qa'): string",
+      "doc": "Username matching the server's validation regex: /^[A-Za-z][A-Za-z0-9-_]+$/, 3-40 chars."
+    }
+  ],
+  "testTags": [
+    "@api",
+    "@ui",
+    "@smoke",
+    "@regression",
+    "@negative",
+    "@known-issue"
+  ],
+  "commands": {
+    "npm run agent:verify": "Run this before declaring any change complete. Lint + typecheck + manifest drift + smoke tests.",
+    "npm test": "Run the whole suite (requires the app under test to be running).",
+    "npm run test:api": "API tests only — fast, no browser.",
+    "npm run test:ui": "UI tests only.",
+    "npm run manifest:generate": "Regenerate this file after changing src/."
+  }
+}
