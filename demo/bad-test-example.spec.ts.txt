@@ -1,0 +1,43 @@
+// ============================================================================
+// DEMO FILE — this is NOT a real test. It is deliberately broken.
+//
+// It exists to demonstrate the framework's agent guardrails in one command.
+// Saved as .txt so it never runs in the suite.
+//
+// To demo:
+//   cp demo/bad-test-example.spec.ts.txt tests/api/demo-bad.spec.ts
+//   npx eslint tests/api/demo-bad.spec.ts
+//   rm tests/api/demo-bad.spec.ts
+//
+// Every line below is a mistake an AI agent typically makes. All six custom
+// rules should fire.
+// ============================================================================
+
+import { test, expect } from '@playwright/test'
+//     ^ VIOLATION 1: bypasses the framework's fixtures entirely
+
+test('no tag here', async ({ page }) => {
+  //   ^ VIOLATION 2: missing the required @api / @ui coverage tag
+
+  await page.locator('.article-preview').click()
+  //          ^ VIOLATION 3: raw CSS selector in a spec, not a page object
+
+  await page.waitForTimeout(2000)
+  //          ^ VIOLATION 4: fixed sleep hides a race condition
+
+  const email = 'fixed@example.com'
+  //             ^ VIOLATION 5: hardcoded email — collides on the second run
+
+  const url = 'http://localhost:3000/api'
+  //           ^ VIOLATION 6: hardcoded URL instead of env config
+
+  expect(email).toBeTruthy()
+  //             ^ VIOLATION 7: weak matcher — passes for almost any value
+
+  expect(page.locator('h1')).toBeVisible()
+  // ^ VIOLATION 8: missing await — this assertion never actually runs
+  //                 (plus another raw selector)
+
+  expect(url).toBeDefined()
+  //           ^ VIOLATION 9: weak matcher again
+})

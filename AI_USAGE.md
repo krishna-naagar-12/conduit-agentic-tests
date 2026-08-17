@@ -2,22 +2,14 @@
 
 ## Summary
 
-**This framework was built with Claude (via Claude Code) doing the implementation,
+**This framework was built with Claude doing the implementation,
 and me directing, correcting and improving it throughout.** It ran against a live
 local instance of the app the entire time.
-
-Stating that plainly, because the assignment asks for honesty and because the
-alternative would not survive one follow-up question. What I want to be equally
-clear about is what "directing" actually meant here, since that is where the
-engineering judgement lives:
 
 - **I refused to let it write code first.** The opening prompt explicitly blocked
   implementation until the app had been analysed and an approach proposed and
   approved. That reconnaissance phase is where all three application defects were
   found — before a single test existed.
-- **I set the constraint that shaped everything else:** *"do not pretend that I
-  implemented something I cannot explain."* Anything I could not defend was removed
-  or rewritten until I could.
 - **I corrected it when it was wrong.** Five times, documented below with the
   evidence — including one case where a well-reasoned inference from the source code
   was flatly wrong about runtime behaviour, and would have shipped as a confident,
