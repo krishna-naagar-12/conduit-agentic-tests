@@ -105,6 +105,24 @@ regression suite, the failing assertions *are* the report and should stay red. T
 also flips if the app were in scope for modification — then the right move is to fix
 `next()` → `next(error)` and delete the pin entirely.
 
+**In my own words:** My first instinct when I hit CONDUIT-001 (duplicate email
+returning 404 instead of the spec's 422) was to just write the test against the spec
+and let it fail — that's the standard "write the test you wish were true" move, and
+it's honest about what's broken. I rejected that once I thought through what happens
+to a suite with three assertions that are *always* red: within a week, "oh yeah,
+those three always fail" becomes tribal knowledge, and the next real regression that
+lands next to them is invisible in the same red noise. That's the exact failure mode
+I was trying to avoid — a suite where green has stopped meaning anything. So instead
+I asserted the actual 404, tagged it `@known-issue`, and put the *correct* expected
+behaviour in a comment plus a full writeup in `KNOWN_ISSUES.md`. The trade-off I
+accepted is real: a test that asserts wrong behaviour on purpose is confusing to
+anyone skimming the suite without context, and it only works because the tag and the
+doc make the deviation loud instead of quiet — if either one drifts out of sync with
+the test, the whole mechanism silently breaks. The concrete payoff is that each
+pinned test is now a tripwire that fails the moment the app is fixed — `next()` →
+`next(error)` on the register route flips CONDUIT-001's test from pass to fail, which
+is the correct signal to go delete the workaround, not a bug to chase.
+
 ---
 
 ## D4 — One fixture surface, with runtime contracts behind it

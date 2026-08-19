@@ -219,6 +219,25 @@ re-derives it. The field's real validation (`NOT NULL` → correct 422) is cover
 and would have passed code review. Only execution caught it. This is exactly why the
 verify-first rule exists.
 
+**In my own words, since I made the call on what to do with it:** My first instinct
+here was to write the boundary test as proposed — a 300-char body against a
+`VARCHAR(255)` column is the textbook boundary case, and it's the kind of test I'd
+add on reflex in any Sequelize-backed API. I rejected that plan the moment I ran the
+`curl` above and saw `200 OK` with the full 300 characters stored intact — not
+truncated, not rejected. The mechanism is specific: SQLite has no native `VARCHAR(n)`
+length enforcement, it's a type-affinity database, so Sequelize's `DataTypes.STRING`
+declaration is metadata the ORM understands but the storage engine silently ignores.
+The same test would correctly fail on Postgres, which is what this app actually runs
+in production — so the inference wasn't wrong in general, it was wrong for the
+runtime I was testing against. Instead of shipping a test that encodes a limit the
+database doesn't enforce, I dropped it and wrote up the mechanism in
+`KNOWN_ISSUES.md` so the next person doesn't re-derive it and waste the same cycle.
+The trade-off I accepted is a real coverage gap: there's no upper-bound test on
+article body length, because there's genuinely nothing there to test against SQLite.
+The measurable part is small but concrete — one `curl` call and one `jq` query
+(`.articles[0].body | length` → `300`) were enough to disprove a boundary that looked
+correct from reading the model definition alone.
+
 ---
 
 ## 3. Wrong #2: a hallucinated method
